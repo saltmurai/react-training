@@ -1,21 +1,30 @@
-import { useEffect, useState } from "react"
+import useCounter from "../hooks/useCounter";
+import Button from "@mui/material/Button";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+function Counter({ start }) {
+  const { counter, increase, decrease } = useCounter(start);
 
-// eslint-disable-next-line react/prop-types
-function Counter({start}) {
-	const [count, setCount] = useState(start)
-	function hanldeClick() {
-		setCount(count + 1)
-	}
-	useEffect(() => {
-		console.log(count)
-	}, [])
-	return (
-		<div>
-			<h2>{count}</h2>
-			<button onClick={hanldeClick}>Increase</button>
-		</div>
-	)
+  return (
+    <div>
+      <h2>{counter}</h2>
+      <Button
+        variant="outlined"
+        onClick={increase}
+        color="success"
+        startIcon={<ArrowUpwardIcon />}
+      >
+        Increase
+      </Button>
+      <Button
+        variant="contained"
+        onClick={decrease}
+        endIcon={<ArrowDownwardIcon />}
+      >
+        Decrease
+      </Button>
+    </div>
+  );
 }
 
-
-export default Counter
+export default Counter;

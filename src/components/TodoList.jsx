@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 
-
 function TodoList() {
   // HOOKS
   const [inputValue, setInputValue] = useState("");
@@ -11,7 +10,6 @@ function TodoList() {
     fetchTodoList();
   }, []);
 
-	
   async function fetchTodoList() {
     console.log("calling API");
     try {
@@ -24,14 +22,35 @@ function TodoList() {
       console.log(err);
     }
   }
-
   function handleInput(e) {
     setInputValue(e.target.value);
   }
-  function handleAdd() {
+  async function handleAdd() {
     if (inputValue === "" || inputValue.trim() === "") {
       return;
     }
+
+    try {
+      const resp = await fetch(
+        "https://solid-terrapin-usefully.ngrok-free.app/api/collections/todoList/records",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: inputValue,
+            done: false,
+          }),
+        }
+      );
+      const result = await resp.json();
+      console.log(result);
+      await fetchTodoList();
+    } catch (err) {
+      console.log(err);
+    }
+
     setInputValue("");
   }
 
@@ -39,7 +58,14 @@ function TodoList() {
     <div className="w-80 h-80 border bg-gray-700 flex flex-col justify-start border-white rounded-md p-4">
       <div>🪴 Todo List</div>
       {todoList.map((item) => {
-        return <TodoItem key={item.name} name={item.name} done={item.done} />;
+        return (
+          <TodoItem
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            done={item.done}
+          />
+        );
       })}
       <div className="flex justify-start items-center gap-2">
         +{" "}
