@@ -1,13 +1,11 @@
 import './App.css'
-import FilterTable from './components/FilterTable'
+import Counter from './components/Counter'
 import TodoList from './components/TodoList'
-
 
 function App() {
   return (
 		<>
-			{/* <FilterTable /> */}
-			<TodoList />
+		<TodoList />
 		</> 
 	)
 }
